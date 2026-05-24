@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三謀S3隊伍克制與兵種查詢</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; display: flex; flex-direction: column; min-height: 100vh; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex: 1; width: 100%; box-sizing: border-box; }
+        h1 { text-align: center; color: #2c3e50; }
+        
+        /* 兵種外觀提示表格樣式 */
+        .hint-table-container { margin-bottom: 25px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+        .hint-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 14px; }
+        .hint-table th { background-color: #2c3e50; color: white; padding: 8px; }
+        .hint-table td { padding: 8px; border-bottom: 1px solid #eee; }
+        .hint-table tr:last-child td { border-bottom: none; }
+        /* 替換顏色標籤以利閱讀 */
+        .color-blue { font-weight: bold; color: #2980b9; }
+        .color-red { font-weight: bold; color: #c0392b; }
+        .color-gold { font-weight: bold; color: #d35400; }
+
+        /* 搜尋與篩選區塊樣式 */
+        .search-box { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; }
+        .filter-container { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; background: #ecf0f1; padding: 15px; border-radius: 5px; }
+        .filter-container select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #bdc3c7; border-radius: 5px; font-size: 15px; background: white; }
+        .filter-label { width: 100%; font-weight: bold; color: #34495e; margin-bottom: 5px; font-size: 14px; }
+        .btn-clear { padding: 10px 15px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 15px; transition: background 0.3s; }
+        .btn-clear:hover { background: #7f8c8d; }
+
+        /* 卡片樣式 */
+        .team-card { border-left: 5px solid #3498db; background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
+        .team-name { font-size: 20px; font-weight: bold; color: #2980b9; margin-bottom: 10px; }
+        .heroes { font-weight: bold; color: #e67e22; margin-bottom: 5px; }
+        .troops { color: #7f8c8d; font-size: 14px; margin-bottom: 15px; font-weight: bold; background: #e8eaed; display: inline-block; padding: 5px 10px; border-radius: 4px; }
+        .matchup { display: flex; gap: 15px; flex-wrap: wrap; }
+        .good-against { flex: 1; min-width: 200px; background: #e8f8f5; padding: 12px; border-radius: 5px; border: 1px solid #a3e4d7; }
+        .bad-against { flex: 1; min-width: 200px; background: #fdedec; padding: 12px; border-radius: 5px; border: 1px solid #f5b7b1; }
+        .title-good { color: #17a589; font-weight: bold; margin-bottom: 8px; }
+        .title-bad { color: #c0392b; font-weight: bold; margin-bottom: 8px; }
+        .note { margin-top: 10px; font-size: 13px; color: #7f8c8d; }
+
+        /* 頁尾樣式 */
+        footer { text-align: center; padding: 20px 0 10px 0; color: #7f8c8d; font-size: 14px; line-height: 1.6; margin-top: 20px; }
+        .sponsor { font-weight: bold; color: #e67e22; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>三謀S3隊伍克制與兵種查詢</h1>
+    
+    <!-- 兵種外觀提示表格 -->
+    <div class="hint-table-container">
+        <table class="hint-table">
+            <thead>
+                <tr>
+                    <th>兵種種類</th>
+                    <th>藍衣外觀</th>
+                    <th>紅衣外觀</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>騎兵</strong></td>
+                    <td><span class="color-blue">藍衣</span>騎兵 = <strong>輕騎</strong></td>
+                    <td><span class="color-gold">紅衣</span>騎兵 = <strong>重騎</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>槍兵</strong></td>
+                    <td><span class="color-blue">藍衣</span>槍兵 = <strong>長槍</strong></td>
+                    <td><span class="color-red">紅衣</span>槍兵 = <strong>矛兵</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>弓兵</strong></td>
+                    <td><span class="color-blue">藍衣</span>弓兵 = <strong>長弓</strong></td>
+                    <td><span class="color-red">紅衣</span>弓兵 = <strong>弩兵</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>盾兵</strong></td>
+                    <td><span class="color-blue">藍衣</span>盾兵 = <strong>劍盾</strong></td>
+                    <td><span class="color-red">紅衣</span>盾兵 = <strong>重盾</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 文字搜尋 -->
+    <input type="text" id="searchInput" class="search-box" placeholder="輸入隊伍名稱或武將 (例如: 泰袁馬, 周瑜)..." onkeyup="filterTeams()">
+    
+    <!-- 兵種外觀篩選區 -->
+    <div class="filter-container">
+        <div class="filter-label">🔍 兵種外觀反查 (無須照順序，可選 1~3 個)</div>
+        <select id="troop1" onchange="filterTeams()">
+            <option value="">- 選擇兵種 1 -</option>
+        </select>
+        <select id="troop2" onchange="filterTeams()">
+            <option value="">- 選擇兵種 2 -</option>
+        </select>
+        <select id="troop3" onchange="filterTeams()">
+            <option value="">- 選擇兵種 3 -</option>
+        </select>
+        <button class="btn-clear" onclick="clearFilters()">清除條件</button>
+    </div>
+
+    <!-- 結果顯示區 -->
+    <div id="results"></div>
+</div>
+
+<!-- 頁尾 -->
+<footer>
+    自用 by 飛羽舞霜<br>
+    由<span class="sponsor">金陵航空</span>贊助<br>
+    24/5/2026 更新
+</footer>
+
+<script>
+    let teamData = [];
+
+    // 從本地載入 JSON 資料
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            teamData = data;
+            populateTroopDropdowns(data);
+            displayTeams(teamData);
+        })
+        .catch(error => {
+            console.error('無法載入資料:', error);
+            document.getElementById('results').innerHTML = '<p style="color:red; text-align:center;">資料載入失敗，請確認 data.json 存在且伺服器已啟動。</p>';
+        });
+
+    // 動態萃取所有不重複的兵種，並放入下拉選單
+    function populateTroopDropdowns(data) {
+        let troopsSet = new Set();
+        data.forEach(team => {
+            if (team.special1) troopsSet.add(team.special1);
+            if (team.special2) troopsSet.add(team.special2);
+            if (team.special3) troopsSet.add(team.special3);
+        });
+
+        // 轉為陣列並排序
+        let sortedTroops = Array.from(troopsSet).sort();
+        
+        ['troop1', 'troop2', 'troop3'].forEach(selectId => {
+            let selectElement = document.getElementById(selectId);
+            sortedTroops.forEach(troop => {
+                let option = document.createElement('option');
+                option.value = troop;
+                option.text = troop;
+                selectElement.appendChild(option);
+            });
+        });
+    }
+
+    // 清除所有篩選條件
+    function clearFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('troop1').value = '';
+        document.getElementById('troop2').value = '';
+        document.getElementById('troop3').value = '';
+        filterTeams();
+    }
+
+    // 顯示隊伍資料
+    function displayTeams(teams) {
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '';
+
+        if(teams.length === 0) {
+            resultsDiv.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">找不到符合此組合的隊伍。</p>';
+            return;
+        }
+
+        teams.forEach(team => {
+            const card = document.createElement('div');
+            card.className = 'team-card';
+
+            card.innerHTML = `
+                <div class="team-name">${team.name || '未知隊伍'}</div>
+                <div class="heroes">武將組合：${team.heroes || '無'}</div>
+                <div class="troops">兵種外觀：${team.special1} / ${team.special2} / ${team.special3}</div>
+                <div class="matchup">
+                    <div class="good-against">
+                        <div class="title-good">⚔️ 衝鴨 (優勢)</div>
+                        <div>${team['衝鴨'] || '無特別優勢資料'}</div>
+                    </div>
+                    <div class="bad-against">
+                        <div class="title-bad">🛡️ 塊桃 (劣勢)</div>
+                        <div>${team['塊桃'] || '無特別劣勢資料'}</div>
+                    </div>
+                </div>
+                ${team.note ? `<div class="note">📝 備註：${team.note}</div>` : ''}
+            `;
+            resultsDiv.appendChild(card);
+        });
+    }
+
+    // 執行篩選邏輯 (支援文字 + 兵種雙重篩選)
+    function filterTeams() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const t1 = document.getElementById('troop1').value;
+        const t2 = document.getElementById('troop2').value;
+        const t3 = document.getElementById('troop3').value;
+
+        const filtered = teamData.filter(team => {
+            // 1. 文字搜尋比對
+            const textMatch = (team.name && team.name.toLowerCase().includes(query)) ||
+                              (team.heroes && team.heroes.toLowerCase().includes(query));
+            
+            // 2. 兵種篩選比對 (無序比對)
+            let requiredTroops = [t1, t2, t3].filter(t => t !== "");
+            let teamTroops = [team.special1, team.special2, team.special3];
+            let troopMatch = true;
+
+            for (let req of requiredTroops) {
+                let index = teamTroops.indexOf(req);
+                if (index !== -1) {
+                    teamTroops.splice(index, 1); 
+                } else {
+                    troopMatch = false;
+                    break;
+                }
+            }
+
+            return textMatch && troopMatch;
+        });
+        
+        displayTeams(filtered);
+    }
+</script>
+
+</body>
+</html>
