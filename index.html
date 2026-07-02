@@ -3,22 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>三謀S3隊伍克制與兵種查詢</title>
+    <title>三謀S4隊伍克制與兵種查詢</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; display: flex; flex-direction: column; min-height: 100vh; }
         .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex: 1; width: 100%; box-sizing: border-box; }
-        h1 { text-align: center; color: #2c3e50; }
-        
-        /* 兵種外觀提示表格樣式 */
-        .hint-table-container { margin-bottom: 25px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
-        .hint-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 14px; }
-        .hint-table th { background-color: #2c3e50; color: white; padding: 8px; }
-        .hint-table td { padding: 8px; border-bottom: 1px solid #eee; }
-        .hint-table tr:last-child td { border-bottom: none; }
-        /* 替換顏色標籤以利閱讀 */
-        .color-blue { font-weight: bold; color: #2980b9; }
-        .color-red { font-weight: bold; color: #c0392b; }
-        .color-gold { font-weight: bold; color: #d35400; }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
 
         /* 搜尋與篩選區塊樣式 */
         .search-box { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; }
@@ -38,8 +27,7 @@
         .bad-against { flex: 1; min-width: 200px; background: #fdedec; padding: 12px; border-radius: 5px; border: 1px solid #f5b7b1; }
         .title-good { color: #17a589; font-weight: bold; margin-bottom: 8px; }
         .title-bad { color: #c0392b; font-weight: bold; margin-bottom: 8px; }
-        .note { margin-top: 10px; font-size: 13px; color: #7f8c8d; }
-
+        
         /* 頁尾樣式 */
         footer { text-align: center; padding: 20px 0 10px 0; color: #7f8c8d; font-size: 14px; line-height: 1.6; margin-top: 20px; }
         .sponsor { font-weight: bold; color: #e67e22; }
@@ -48,49 +36,12 @@
 <body>
 
 <div class="container">
-    <h1>三謀S3隊伍克制與兵種查詢</h1>
-    
-    <!-- 兵種外觀提示表格 -->
-    <div class="hint-table-container">
-        <table class="hint-table">
-            <thead>
-                <tr>
-                    <th>兵種種類</th>
-                    <th>藍衣外觀</th>
-                    <th>紅衣外觀</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>騎兵</strong></td>
-                    <td><span class="color-blue">藍衣</span>騎兵 = <strong>輕騎</strong></td>
-                    <td><span class="color-gold">紅衣</span>騎兵 = <strong>重騎</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>槍兵</strong></td>
-                    <td><span class="color-blue">藍衣</span>槍兵 = <strong>長槍</strong></td>
-                    <td><span class="color-red">紅衣</span>槍兵 = <strong>矛兵</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>弓兵</strong></td>
-                    <td><span class="color-blue">藍衣</span>弓兵 = <strong>長弓</strong></td>
-                    <td><span class="color-red">紅衣</span>弓兵 = <strong>弩兵</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>盾兵</strong></td>
-                    <td><span class="color-blue">藍衣</span>盾兵 = <strong>劍盾</strong></td>
-                    <td><span class="color-red">紅衣</span>盾兵 = <strong>重盾</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <h1>三謀S4隊伍克制與兵種查詢</h1>
 
-    <!-- 文字搜尋 -->
-    <input type="text" id="searchInput" class="search-box" placeholder="輸入隊伍名稱或武將 (例如: 泰袁馬, 周瑜)..." onkeyup="filterTeams()">
+    <input type="text" id="searchInput" class="search-box" placeholder="輸入隊伍名稱或武將 (例如: 月亮馬, SP諸葛亮)..." onkeyup="filterTeams()">
     
-    <!-- 兵種外觀篩選區 -->
     <div class="filter-container">
-        <div class="filter-label">🔍 兵種外觀反查 (無須照順序，可選 1~3 個)</div>
+        <div class="filter-label">🔍 兵種反查 (無須照順序，可選 1~3 個)</div>
         <select id="troop1" onchange="filterTeams()">
             <option value="">- 選擇兵種 1 -</option>
         </select>
@@ -103,43 +54,47 @@
         <button class="btn-clear" onclick="clearFilters()">清除條件</button>
     </div>
 
-    <!-- 結果顯示區 -->
     <div id="results"></div>
 </div>
 
-<!-- 頁尾 -->
 <footer>
     自用 by 飛羽舞霜<br>
-    由<span class="sponsor">金陵航空</span>贊助<br>
-    24/5/2026 更新
+    由<span class="sponsor">男娘基金會</span>贊助<br>
+    2/7/2026 更新
 </footer>
 
 <script>
     let teamData = [];
 
-    // 從本地載入 JSON 資料
-    fetch('data.json')
+    // 載入 S4 的 JSON 資料
+    fetch('data_s4.json')
         .then(response => response.json())
         .then(data => {
-            teamData = data;
-            populateTroopDropdowns(data);
+            // 過濾掉沒有隊伍名稱的無效資料，避免空白框
+            teamData = data.filter(team => team.name && team.name.toString().trim() !== '');
+            populateTroopDropdowns(teamData);
             displayTeams(teamData);
         })
         .catch(error => {
             console.error('無法載入資料:', error);
-            document.getElementById('results').innerHTML = '<p style="color:red; text-align:center;">資料載入失敗，請確認 data.json 存在且伺服器已啟動。</p>';
+            document.getElementById('results').innerHTML = '<p style="color:red; text-align:center;">資料載入失敗，請確認 data_s4.json 存在且伺服器已啟動。</p>';
         });
 
-    // 動態萃取所有不重複的兵種，並放入下拉選單
+    // 動態萃取 S4 兵種，遇到 "槍/弓" 會自動拆分成獨立的 "槍" 和 "弓"
     function populateTroopDropdowns(data) {
         let troopsSet = new Set();
         data.forEach(team => {
-            if (team.special1) troopsSet.add(team.special1);
-            if (team.special2) troopsSet.add(team.special2);
-            if (team.special3) troopsSet.add(team.special3);
+            [team.special1, team.special2, team.special3].forEach(spec => {
+                if (spec) {
+                    // 以斜線切割字串，並移除多餘空白
+                    spec.toString().split('/').forEach(t => {
+                        let cleanTroop = t.trim();
+                        if (cleanTroop) troopsSet.add(cleanTroop);
+                    });
+                }
+            });
         });
 
-        // 轉為陣列並排序
         let sortedTroops = Array.from(troopsSet).sort();
         
         ['troop1', 'troop2', 'troop3'].forEach(selectId => {
@@ -153,7 +108,6 @@
         });
     }
 
-    // 清除所有篩選條件
     function clearFilters() {
         document.getElementById('searchInput').value = '';
         document.getElementById('troop1').value = '';
@@ -162,7 +116,6 @@
         filterTeams();
     }
 
-    // 顯示隊伍資料
     function displayTeams(teams) {
         const resultsDiv = document.getElementById('results');
         resultsDiv.innerHTML = '';
@@ -175,28 +128,35 @@
         teams.forEach(team => {
             const card = document.createElement('div');
             card.className = 'team-card';
+            
+            // 合併顯示武將，過濾掉空的欄位
+            const heroList = [team.hero1, team.hero2, team.hero3].filter(h => h && h.trim() !== '').join(' / ');
+            // 兵種顯示
+            const troopList = [team.special1, team.special2, team.special3].filter(t => t && t.trim() !== '').join(' / ');
+
+            // 如果欄位為空就不顯示，保持卡片乾淨
+            let matchupGoodHTML = team['優'] && team['優'].trim() !== '' ? `<div>${team['優']}</div>` : `<div style="color:#aaa;">無資料</div>`;
+            let matchupBadHTML = team['劣'] && team['劣'].trim() !== '' ? `<div>${team['劣']}</div>` : `<div style="color:#aaa;">無資料</div>`;
 
             card.innerHTML = `
-                <div class="team-name">${team.name || '未知隊伍'}</div>
-                <div class="heroes">武將組合：${team.heroes || '無'}</div>
-                <div class="troops">兵種外觀：${team.special1} / ${team.special2} / ${team.special3}</div>
+                <div class="team-name">${team.name}</div>
+                ${heroList ? `<div class="heroes">武將組合：${heroList}</div>` : ''}
+                ${troopList ? `<div class="troops">兵種：${troopList}</div>` : ''}
                 <div class="matchup">
                     <div class="good-against">
-                        <div class="title-good">⚔️ 衝鴨 (優勢)</div>
-                        <div>${team['衝鴨'] || '無特別優勢資料'}</div>
+                        <div class="title-good">⚔️ 優勢對局</div>
+                        ${matchupGoodHTML}
                     </div>
                     <div class="bad-against">
-                        <div class="title-bad">🛡️ 塊桃 (劣勢)</div>
-                        <div>${team['塊桃'] || '無特別劣勢資料'}</div>
+                        <div class="title-bad">🛡️ 劣勢對局</div>
+                        ${matchupBadHTML}
                     </div>
                 </div>
-                ${team.note ? `<div class="note">📝 備註：${team.note}</div>` : ''}
             `;
             resultsDiv.appendChild(card);
         });
     }
 
-    // 執行篩選邏輯 (支援文字 + 兵種雙重篩選)
     function filterTeams() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         const t1 = document.getElementById('troop1').value;
@@ -204,19 +164,32 @@
         const t3 = document.getElementById('troop3').value;
 
         const filtered = teamData.filter(team => {
-            // 1. 文字搜尋比對
+            // 文字搜尋
             const textMatch = (team.name && team.name.toLowerCase().includes(query)) ||
-                              (team.heroes && team.heroes.toLowerCase().includes(query));
+                              (team.hero1 && team.hero1.toLowerCase().includes(query)) ||
+                              (team.hero2 && team.hero2.toLowerCase().includes(query)) ||
+                              (team.hero3 && team.hero3.toLowerCase().includes(query));
             
-            // 2. 兵種篩選比對 (無序比對)
+            // 兵種無序比對 (支援複合兵種解析)
             let requiredTroops = [t1, t2, t3].filter(t => t !== "");
-            let teamTroops = [team.special1, team.special2, team.special3];
+            
+            // 將每個欄位的兵種拆開變成陣列的陣列：例如 [['槍','弓'], ['盾'], ['騎']]
+            let teamTroopsSlots = [
+                team.special1 ? team.special1.toString().split('/').map(s => s.trim()) : [],
+                team.special2 ? team.special2.toString().split('/').map(s => s.trim()) : [],
+                team.special3 ? team.special3.toString().split('/').map(s => s.trim()) : []
+            ];
+
             let troopMatch = true;
 
+            // 對於每一個使用者指定的兵種需求
             for (let req of requiredTroops) {
-                let index = teamTroops.indexOf(req);
-                if (index !== -1) {
-                    teamTroops.splice(index, 1); 
+                // 找尋這個兵種是否存在於隊伍的任何一個尚未被分配的武將槽位中
+                let foundIndex = teamTroopsSlots.findIndex(slot => slot.includes(req));
+                if (foundIndex !== -1) {
+                    // 如果找到了，就把這個槽位從可匹配的陣列中移除，避免重複使用
+                    // (例如: 使用者選了兩個"槍"，隊伍必須在兩個不同的槽位都有"槍"才符合)
+                    teamTroopsSlots.splice(foundIndex, 1); 
                 } else {
                     troopMatch = false;
                     break;
