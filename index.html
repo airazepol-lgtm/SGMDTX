@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>三謀S4隊伍克制與兵種查詢</title>
+    <title>三謀S5隊伍克制與兵種查詢</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; display: flex; flex-direction: column; min-height: 100vh; }
         .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex: 1; width: 100%; box-sizing: border-box; }
@@ -36,7 +36,7 @@
 <body>
 
 <div class="container">
-    <h1>三謀S4隊伍克制與兵種查詢</h1>
+    <h1>三謀S5隊伍克制與兵種查詢</h1>
 
     <input type="text" id="searchInput" class="search-box" placeholder="輸入隊伍名稱或武將 (例如: 月亮馬, SP諸葛亮)..." onkeyup="filterTeams()">
     
@@ -66,8 +66,8 @@
 <script>
     let teamData = [];
 
-    // 載入 S4 的 JSON 資料
-    fetch('data_s4.json')
+    // 載入 S5 的 JSON 資料
+    fetch('data_s5.json')
         .then(response => response.json())
         .then(data => {
             // 過濾掉沒有隊伍名稱的無效資料，避免空白框
@@ -77,10 +77,10 @@
         })
         .catch(error => {
             console.error('無法載入資料:', error);
-            document.getElementById('results').innerHTML = '<p style="color:red; text-align:center;">資料載入失敗，請確認 data_s4.json 存在且伺服器已啟動。</p>';
+            document.getElementById('results').innerHTML = '<p style="color:red; text-align:center;">資料載入失敗，請確認 data_s5.json 存在且伺服器已啟動。</p>';
         });
 
-    // 動態萃取 S4 兵種，遇到 "槍/弓" 會自動拆分成獨立的 "槍" 和 "弓"
+    // 動態萃取 S5 兵種，遇到 "槍/弓" 會自動拆分成獨立的 "槍" 和 "弓"
     function populateTroopDropdowns(data) {
         let troopsSet = new Set();
         data.forEach(team => {
